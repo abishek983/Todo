@@ -33,7 +33,7 @@ MongoCLient.connect(url,(err, client) => {
 
 //inserting inside the collection
 function insertToDb(msgObj) {
-    dbCollections.insertOne(msgObj);
+    dbCollections.insertOne(msgObj, {unique : true});
 };
 
 
@@ -59,8 +59,10 @@ app.get('/' ,async (req,res) => {
 
 
 app.post('/', async (req, res) => {
-    //console.log(req.body);
-    insertToDb(req.body)
+    // console.log(req.body);
+    console.log(dbCollections.find({item : "hello"}).toArray);
+    if(req.body.item!='')
+        insertToDb(req.body)
     res.redirect("/");
 });
 
