@@ -26,8 +26,9 @@ MongoCLient.connect(url,(err, client) => {
     if(err) console.log(err);
     db = client.db("development");
     dbCollections = db.collection("todoapp");
-    app.listen(3000, () => 
-    console.log("database connection succesfull app running on PORT:3000"));
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => 
+    console.log("database connection succesfull app running on PORT:",port));
 });
 
 //inserting inside the collection
