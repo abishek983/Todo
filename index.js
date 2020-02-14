@@ -22,7 +22,7 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, () => {
 var MongoCLient = require("mongodb").MongoClient;
 var db,dbCollections;
 const url = "mongodb+srv://admin:yesbank@chat-app-4n7zx.mongodb.net/test";
-MongoCLient.connect(url,(err, client) => {
+MongoCLient.connect(url, { useUnifiedTopology: true },(err, client) => {
     if(err) console.log(err);
     db = client.db("development");
     dbCollections = db.collection("todoapp");
@@ -33,7 +33,7 @@ MongoCLient.connect(url,(err, client) => {
 
 //inserting inside the collection
 function insertToDb(msgObj) {
-    dbCollections.insertOne(msgObj, {unique : true});
+    dbCollections.insertOne(msgObj);
 };
 
 
@@ -50,7 +50,7 @@ app.get('/' ,async (req,res) => {
         //console.log(task);
         res.render("todo.ejs" , {task : task});     
     });
-        /* result.then(function(ans){
+    /* result.then(function(ans){
         ans.forEach((ele,ind) => {
             console.log(ele.item);
         });
@@ -60,7 +60,7 @@ app.get('/' ,async (req,res) => {
 
 app.post('/', async (req, res) => {
     // console.log(req.body);
-    console.log(dbCollections.find({item : "hello"}).toArray);
+    dbCollections.deleteOne({item : req.body.item});
     if(req.body.item!='')
         insertToDb(req.body)
     res.redirect("/");
