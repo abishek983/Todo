@@ -31,10 +31,6 @@ MongoCLient.connect(url, { useUnifiedTopology: true },(err, client) => {
     console.log("database connection succesfull app running on PORT:",port));
 });
 
-//inserting inside the collection
-function insertToDb(msgObj) {
-    dbCollections.insertOne(msgObj);
-};
 
 
 //configuring view engine
@@ -45,7 +41,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.get('/' ,async (req,res) => {
+app.get('/' ,(req,res) => {
     const result = dbCollections.find().toArray(function(err,task){
         //console.log(task);
         res.render("todo.ejs" , {task : task});     
@@ -58,12 +54,16 @@ app.get('/' ,async (req,res) => {
 });
 
 
-app.post('/', async (req, res) => {
+app.post('/',(req, res) => {
     // console.log(req.body);
     dbCollections.deleteOne({item : req.body.item});
     if(req.body.item!='')
-        insertToDb(req.body)
-    res.redirect("/");
+        dbCollections.insertOne(req.body).then(()=>{
+            res.redirect("/");
+        });       
+    else    
+        res.redirect("/");
+    
 });
 
 
