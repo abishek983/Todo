@@ -27,7 +27,7 @@
         
          <div class="todo-list px-2 mx-auto " >
             <% task.forEach(data =>{ %>
-                <div class="alert alert-primary text-left" role="alert">
+                <div class="alert alert-primary text-left d-flex justify-content-between" role="alert">
                     <% if(data._id == idTask) { %>
                         <form action="/edit/<%= data._id %>" method="POST">
                         <input type="text" value=<%= data.item %> name="content">

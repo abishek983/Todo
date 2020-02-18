@@ -78,6 +78,7 @@ app.get('/remove/:id' , (req,res) => {
 })
 
 app.route("/edit/:id")
+
 .get((req,res) => {
     const result = dbCollections.find().toArray(function(err,task){
         const id = req.params.id;
@@ -85,6 +86,7 @@ app.route("/edit/:id")
         res.render("edit.ejs" , {task : task , idTask : id});     
     });
 })
+
 .post((req,res)=> {
     const id = req.params.id;
     dbCollections.update({_id : ObjectId(id)} , {item : req.body.content} , err => {
