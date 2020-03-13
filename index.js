@@ -32,7 +32,6 @@ MongoCLient.connect(url, { useUnifiedTopology: true },(err, client) => {
 });
 
 
-
 //configuring view engine
 app.set("view engine", "ejs");
 
